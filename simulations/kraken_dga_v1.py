@@ -42,7 +42,7 @@ def dga(index, seed_set, temp_file=True):
 
 def get_domains(nr, seed_set='a'):
     domains = []
-    for i in range(nr):
+    for i in range(nr-1):
         for temp_file in range(2):
             domains.append(dga(i*2, seed_set, temp_file))
     return domains

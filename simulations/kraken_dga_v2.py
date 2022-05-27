@@ -48,7 +48,7 @@ def dga(index, date, seed_set, temp_file=True, tld_set_nr=1):
 
 def get_domains(nr, date=date.today(), seed='a', tld_set=1):
     domains = []
-    for i in range(nr):
+    for i in range(nr-1):
         for temp_file in range(2):
             domains.append(dga(i*2, date, seed, temp_file, tld_set))
     return domains
