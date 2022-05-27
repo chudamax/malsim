@@ -1,21 +1,6 @@
 import argparse, sys, time
 from simulations import kraken_dga_v1, kraken_dga_v2, cobaltstrike_dns, dns_zone_transfer
-
-#https://github.com/paulc/dnslib
-try:
-    from dnslib import *
-    from dnslib.label import DNSLabel
-    from dnslib.server import DNSServer, DNSHandler, BaseResolver, DNSLogger
-    from dnslib.digparser import DigParser
-except ImportError:
-    print("Missing dependency dnslib: <https://pypi.python.org/pypi/dnslib>. Please install it with `pip`.")
-    sys.exit(2)
-
-def make_request(domain, qtype="A", server="8.8.8.8"):
-    q = DNSRecord(q=DNSQuestion(domain,getattr(QTYPE,qtype)))
-    a_pkt = q.send(server,53)
-    a = DNSRecord.parse(a_pkt)
-    return a
+from simulations.utils import make_request
 
 #answer = request(domain="test111.pentestcnc.ru",qtype="A", server="8.8.8.8")
 #print (answer.rr[0].rdata)
@@ -60,10 +45,8 @@ def dnz_zone_transfer(domain, server):
     hosts = dns_zone_transfer.dns_zone_transfer(domain=domain, ip=server)
     print (hosts)
 
-
+#dnz_zone_transfer('hpbank.local','192.168.0.167')
 #cobaltstrike_dns_tunneling_staging()
 #cobaltstrike_dns_tunneling_beaconing()
-
-
-kraken_ddns()
+#kraken_ddns()
 kraken_dga()
