@@ -15,4 +15,4 @@ Available modules:
 * sinholed_domains
 * dnz_zone_transfer
 
-![Alt text](malsim.jpg?raw=true "malsim")
+![Alt text](malsim.png?raw=true "malsim")
