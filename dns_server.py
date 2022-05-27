@@ -1,13 +1,16 @@
 import argparse, sys, time
 
 #https://github.com/paulc/dnslib
-from dnslib import RR,QTYPE, RCODE, TXT, A, parse_time
-from dnslib.label import DNSLabel
-from dnslib.server import DNSServer, DNSHandler, BaseResolver, DNSLogger
+try:
+    from dnslib import *
+    from dnslib.label import DNSLabel
+    from dnslib.server import DNSServer, DNSHandler, BaseResolver, DNSLogger
+except ImportError:
+    print("Missing dependency dnslib: <https://pypi.python.org/pypi/dnslib>. Please install it with `pip`.")
+    sys.exit(2)
 
 from io import StringIO, BytesIO
 from io import BytesIO
-
 
 class Resolver(BaseResolver):
 
@@ -16,18 +19,27 @@ class Resolver(BaseResolver):
         self.ttl = parse_time(ttl)
         self.clients = {}
 
-    def reply_to_client(self, request):
-        reply = request.reply()
+    def resolve(self, request, handler):
+        print (request.header)
+        print (request.q)
+
         qname = request.q.qname
+        qn = str(qname)
+        qtype = request.q.qtype
+        qt = QTYPE[qtype]
 
-        print ("1", qname)
-
-    def resolve(self, request, handler):        
         reply = request.reply()
-        qname = request.q.qname
 
-        print ("2", qname)
+        if qt in ['A']:
+            reply.add_answer(RR(rname=qname, rtype=qtype, ttl=self.ttl, rdata=A("127.0.0.1")))
 
+        if qt in ['MX']:
+            reply.add_answer(RR(rname=qname, rtype=qtype, ttl=self.ttl, rdata=MX("127.0.0.1")))
+
+        if qt in ['AAAA']:
+            reply.add_answer(RR(rname=qname, rtype=qtype, ttl=self.ttl, rdata=AAAA((0,) * 16)))
+
+        return reply
 
 if __name__ == '__main__':
 
