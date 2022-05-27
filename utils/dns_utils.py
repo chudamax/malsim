@@ -1,5 +1,5 @@
-import argparse, sys, time
-from simulations import kraken_dga_v1, kraken_dga_v2
+import sys
+import dns.resolver as resolver
 
 #https://github.com/paulc/dnslib
 try:
@@ -16,3 +16,6 @@ def make_request(domain, qtype="A", server="8.8.8.8"):
     a_pkt = q.send(server,53)
     a = DNSRecord.parse(a_pkt)
     return a
+
+def get_default_resolver():
+    return resolver.Resolver().nameservers[0]
