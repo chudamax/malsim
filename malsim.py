@@ -1,6 +1,6 @@
 import argparse, sys, time
 
-from simulations import kraken_dga_v1, kraken_dga_v2, cobaltstrike_dns, dns_zone_transfer, well_known_ioc, sinkhole
+from simulations import kraken_dga_v1, kraken_dga_v2, cobaltstrike_dns, dns_zone_transfer, well_known_ioc, sinkhole, dns_bruteforce
 from utils.dns_utils import make_request, get_default_resolver
 
 #based on https://www.youtube.com/watch?v=zAB5G-QOyx8
@@ -64,6 +64,13 @@ def dnz_zone_transfer(dns_server, domain):
         print ('Resolver: {}, Response:{}'.format(dns_server, hosts))
     print ('Done')
 
+def dns_bruteforce_module(dns_server, base_domain, count):
+    print ('\nUnitTest: DNS bruteforce')
+    for domain in dns_bruteforce.get_domains(base_domain=base_domain, count=count):
+        resp = make_request(domain=domain, qtype="A", server=dns_server)
+        print ('Resolver: {}, Query:[A]: {}, Response:{}'.format(dns_server, domain, resp.rr))
+    print ('Done')
+
 def parser_error(errmsg):
     print("Usage: python3 " + sys.argv[0] + " [Options] use -h for help")
     print("Error: " + errmsg)
@@ -107,6 +114,9 @@ def main():
 
     if args.module in ['dnz_zone_transfer', 'all']:
         dnz_zone_transfer(dns_server=dns_server, domain=args.domain)
+
+    if args.module in ['dns_bruteforce', 'all']:
+        dns_bruteforce_module(dns_server=dns_server, base_domain=args.domain, count=args.count)
 
 
 if __name__ == '__main__':

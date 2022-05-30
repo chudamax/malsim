@@ -13,6 +13,7 @@ Available modules:
 * kraken_ddns
 * well_known_malicious_domains
 * sinholed_domains
+* dns_bruteforce
 * dnz_zone_transfer
 
 ![Alt text](malsim.png?raw=true "malsim")
