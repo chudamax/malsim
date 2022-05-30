@@ -3,7 +3,7 @@ A script to simulate different kind of malicious network activity, like communic
 
 How to run:
 ```
-python .\malsim.py -m dnz_zone_transfer -r 192.168.0.167 -d hpbank.local
+python3 malsim.py -m dnz_zone_transfer -r 192.168.0.1 -d domain.local
 ```
 
 Available modules:
